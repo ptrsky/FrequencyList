@@ -10,13 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class FrequencyListTests {
     private FrequencyList frequencyList;
-    private HashMap<String, Integer> map = new HashMap<String, Integer>() {{
+    private final HashMap<String, Integer> map = new HashMap<>() {{
         put("the", 2);
         put("of", 4);
         put("this", 1);

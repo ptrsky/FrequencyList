@@ -2,24 +2,20 @@ package pp.exercise.freqList;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import pp.exercise.freqList.domain.FrequencyList;
 import pp.exercise.freqList.domain.TextProcessor;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class TextProcessorTests {
-    private TextProcessor textProcessor = new TextProcessor();
+    private final TextProcessor textProcessor = new TextProcessor();
     @Test
     public void inputStream_UpperCaseIgnored(){
-        String input = "Two two of two The word the";
-        InputStream stream = new ByteArrayInputStream(input.getBytes());
-        FrequencyList fl = textProcessor.calculateFrequencyList(stream);
+        FrequencyList fl = textProcessor.generateFrequencyList(
+                createFileWithText("Two two of two The word the"));
 
         assertTrue(fl.getMap().get("two") == 3);
         assertTrue(fl.getMap().get("of") == 1);
@@ -29,9 +25,8 @@ public class TextProcessorTests {
 
     @Test
     public void inputStream_PunctuationIgnored(){
-        String input = "two: two, three! and... one-two";
-        InputStream stream = new ByteArrayInputStream(input.getBytes());
-        FrequencyList fl = textProcessor.calculateFrequencyList(stream);
+        FrequencyList fl = textProcessor.generateFrequencyList(
+                createFileWithText("two: two, three! and... one-two"));
 
         assertTrue(fl.getMap().get("two") == 2);
         assertTrue(fl.getMap().get("one-two") == 1);
@@ -41,10 +36,17 @@ public class TextProcessorTests {
 
     @Test
     public void inputStream_emptyInput(){
-        String input = "";
-        InputStream stream = new ByteArrayInputStream(input.getBytes());
-        FrequencyList fl = textProcessor.calculateFrequencyList(stream);
-
+        FrequencyList fl = textProcessor.generateFrequencyList(
+                createFileWithText(""));
         assertTrue(fl.getMap().isEmpty());
+    }
+
+    private MockMultipartFile createFileWithText(String text) {
+        return new MockMultipartFile(
+                "file",
+                "hello.txt",
+                MediaType.TEXT_PLAIN_VALUE,
+                text.getBytes()
+        );
     }
 }
