@@ -6,11 +6,13 @@ import java.util.Scanner;
 
 public class TextProcessor {
 
+    private final static String ENCODING_TYPE = "UTF-8";
+
     public FrequencyList calculateFrequencyList(InputStream inputStream) {
         FrequencyList frequencyList = new FrequencyList();
         Scanner scanner = null;
         try {
-            scanner = new Scanner(inputStream, "UTF-8"); //założenie: kodowanie w UTF-8
+            scanner = new Scanner(inputStream, ENCODING_TYPE);
             while (scanner.hasNext()) {
                 String word = normalize(scanner.next());
 
