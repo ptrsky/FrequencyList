@@ -37,7 +37,8 @@ public class TextProcessor {
     }
 
     private String normalize(String inputWord) {
-        return inputWord.toLowerCase().replaceAll("\\p{Punct}+$", "");
+        return inputWord.toLowerCase()
+                .replaceAll("^(\\p{P}+\\s*)|(\\p{P}+\\s*)+$", "");
     }
 
 }

@@ -35,6 +35,18 @@ public class TextProcessorTests {
     }
 
     @Test
+    public void inputStream_SpecialCases(){
+        FrequencyList fl = textProcessor.generateFrequencyList(
+                createFileWithText("'without I'll (really) -go --go 'tis \"'tis'\""));
+
+        assertTrue(fl.getMap().get("go") == 2);
+        assertTrue(fl.getMap().get("tis") == 2);
+        assertTrue(fl.getMap().get("really") == 1);
+        assertTrue(fl.getMap().get("i'll") == 1);
+        assertTrue(fl.getMap().get("without") == 1);
+    }
+
+    @Test
     public void inputStream_emptyInput(){
         FrequencyList fl = textProcessor.generateFrequencyList(
                 createFileWithText(""));
